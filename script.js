@@ -3,27 +3,28 @@ const forecastTitle = document.querySelector('.current-forecast h1');
 const forecastPercentage = document.querySelector('.current-forecast p');
 const forecastsList = document.querySelector('.forecasts');
 const forecastTemplate = document.getElementById('forecast-item');
+const predictions = [
+    { text: 'Сегодня у вас будет хороший день', percentage: generatePercentage() },
+    { text: 'Близкий человек предаст вас', percentage: generatePercentage() },
+    { text: 'Сегодня тебя ждёт приятный сюрприз', percentage: generatePercentage() },
+    { text: 'Никому не верь', percentage: generatePercentage() },
+    { text: 'Всё будет хорошо', percentage: generatePercentage() }
+];
 
 button.addEventListener('click', function() {
-    const predictions = [
-        { text: 'Сегодня у вас будет хороший день', percentage: generatePercentage() },
-        { text: 'Близкий человек предаст вас', percentage: generatePercentage() },
-        { text: 'Сегодня тебя ждёт приятный сюрприз', percentage: generatePercentage() },
-        { text: 'Никому не верь', percentage: generatePercentage() },
-        { text: 'Всё будет хорошо', percentage: generatePercentage() }
-    ];
-
     const randomPrediction = predictions[Math.floor(Math.random() * predictions.length)];
     forecastTitle.textContent = randomPrediction.text;
     forecastPercentage.textContent = 'Вероятность: ' + randomPrediction.percentage + '%';
 
-    const newForecastItem = forecastTemplate.content.cloneNode(true);
-    newForecastItem.querySelector('h3').textContent = randomPrediction.text;
-
-    newForecastItem.querySelector('p').textContent = 'Вероятность: ' + randomPrediction.percentage + '%';
-    
-    forecastsList.prepend(newForecastItem);
+    addNewForecast(randomPrediction, forecastsList);
 });
+
+function addNewForecast(prediction, list) {
+    const newForecastItem = forecastTemplate.content.cloneNode(true);
+    newForecastItem.querySelector('h3').textContent = prediction.text;
+    newForecastItem.querySelector('p').textContent = 'Вероятность: ' + prediction.percentage + '%';
+    list.prepend(newForecastItem);
+}
 
 function generatePercentage() {
     return Math.floor(Math.random() * 101); 
